@@ -1,14 +1,17 @@
-import { use, useState } from "react";
+import { use, useState} from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { Product as P, ProductType } from "../Tupe"
 import Product from "../Product/Product";
 import ProductDescription from "../Product/ProductDescription";
 
 export interface ProductsProps {
     PromiseProduct: Promise<ProductType>
+    coins:number
+    setCoins:Dispatch<SetStateAction<number>>
     
 }
 
-export default function Products({ PromiseProduct }: ProductsProps) {
+export default function Products({ PromiseProduct,coins,setCoins }: ProductsProps) {
 
     let [productDescription, setProductDescription] = useState<P[]>([])
 
@@ -36,7 +39,7 @@ export default function Products({ PromiseProduct }: ProductsProps) {
             {productDescription.length === 0 ? (
                 <div className="flex flex-col items-center md:grid md:grid-cols-2 xl:grid xl:grid-cols-3 gap-4 m-auto xl:w-7xl pl-2.5">
                     {products.map(product => (
-                        <Product
+                        <Product coins={coins} setCoins ={setCoins}
                             handleProductdescription={handleProductdescription}
                             key={product.id}
                             product={product}

@@ -1,8 +1,9 @@
 
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import './App.css'
 import type {  ProductType } from './Tupe'
 import Products from './Products/products'
+import Navbar from './Navbar'
 
 
 
@@ -13,13 +14,15 @@ let PromiseProduct = async():Promise<ProductType>=>{
       let data = res.json()
       return data
     }
+    const [coins, setCoins]=useState(600)
   return (
     
     <>
-      
+     
+    <Navbar coins={coins}></Navbar>
     
    <Suspense fallback={<h3>Loading.....</h3>}>
-        <Products PromiseProduct={PromiseProduct()} />
+        <Products coins={coins} setCoins={setCoins} PromiseProduct={PromiseProduct()} />
       </Suspense>
     </>
   )

@@ -1,12 +1,32 @@
+import { useState } from "react"
 import type { Product } from "../Tupe"
+import type { Dispatch, SetStateAction } from "react";
+import { toast } from "react-toastify";
+
 
 export interface ProductProps {
     product: Product
     handleProductdescription: (product: Product) => void
+    coins: number
+    setCoins: Dispatch<SetStateAction<number>>;
 }
 
-export default function Product({ product, handleProductdescription }: ProductProps) {
+export default function Product({ product, handleProductdescription, coins, setCoins }: ProductProps) {
     const discountedPrice = product.price * (1 - product.discountPercentage / 100)
+    const [cartBtn, setCartBtn] = useState("Buy Now")
+
+    let handleCartBtn = (value: "Buy Now" | "Purchased!") => {
+        if (discountedPrice <coins) {
+            setCartBtn(value)
+            let newAvailableCoins = (coins - discountedPrice)
+            setCoins(Number(newAvailableCoins.toFixed(2)))
+            toast.success(`${product.title} Purchased Successfully`)
+        }
+        else{
+            toast.error("Not Enough Coins")
+        }
+
+    }
 
     return (
         <article className="group relative w-full max-w-sm overflow-hidden rounded-[28px] border border-slate-800 bg-slate-900 shadow-[0_20px_60px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(15,23,42,0.45)]">
@@ -43,11 +63,13 @@ export default function Product({ product, handleProductdescription }: ProductPr
                 <p className="line-clamp-2 text-sm leading-6 text-slate-300">{product.description}</p>
 
                 <div className="flex gap-3 pt-2">
-                    <button className="btn flex-1 border-0 bg-amber-400 text-sm font-semibold text-slate-950 hover:bg-amber-300">
-                        Buy Now
+                    <button onClick={() => handleCartBtn("Purchased!")}
+                        disabled={cartBtn === "Buy Now" ? false : true}
+                        className={`btn flex-1 border-0 ${cartBtn === "Buy Now" ? `bg-amber-400 text-slate-950 ` : `bg-white text-cyan-200 `} text-sm font-semibold hover:bg-amber-300`}>
+                        {cartBtn}
                     </button>
                     <button
-                       onClick={()=>handleProductdescription(product)}
+                        onClick={() => handleProductdescription(product)}
                         className="btn flex-1 border border-slate-700 bg-transparent text-sm font-semibold text-slate-200 hover:border-white hover:bg-white hover:text-slate-950"
                     >
                         View Product
