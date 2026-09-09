@@ -77,14 +77,31 @@
 
 
 import type { Product } from "../Tupe"
+import { useState, type Dispatch, type SetStateAction } from "react";
+import { toast } from "react-toastify";
 
 interface ProductDescriptionProps {
     pro: Product
     handleBackToproductsBtn: () => void
+    coins:number
+    setCoins: Dispatch<SetStateAction<number>>;
 }
 
-const ProductDescription = ({ pro, handleBackToproductsBtn }: ProductDescriptionProps) => {
+const ProductDescription = ({ pro, handleBackToproductsBtn,coins,setCoins }: ProductDescriptionProps) => {
     const discountedPrice = pro.price * (1 - pro.discountPercentage / 100)
+     const [cartBtn, setCartBtn] = useState("Buy Now")
+      let handleCartBtn = (value: "Buy Now" | "Purchased!") => {
+        if (discountedPrice <coins) {
+            setCartBtn(value)
+            let newAvailableCoins = (coins - discountedPrice)
+            setCoins(Number(newAvailableCoins.toFixed(2)))
+            toast.success(`${pro.title} Purchased Successfully`)
+        }
+        else{
+            toast.error("Not Enough Coins")
+        }
+
+    }
     return (
         <main className="min-h-screen bg-slate-950 px-4 py-6 text-slate-100 sm:px-8 lg:px-12">
             <div className="mx-auto max-w-6xl">
@@ -133,8 +150,12 @@ const ProductDescription = ({ pro, handleBackToproductsBtn }: ProductDescription
                         </div>
 
                         <div className="flex flex-col gap-3 sm:flex-row">
-                            <button className="btn flex-1 border-0 bg-amber-400 text-slate-950 hover:bg-amber-300">Add to cart</button>
-                            <button className="btn btn-outline flex-1 border-slate-600 text-slate-200 hover:border-white hover:bg-white hover:text-slate-950">Buy now</button>
+                            <button className="btn flex-1 border-0 bg-slate-900 text-white hover:bg-amber-300">Add to cart</button>
+                            <button onClick={() => handleCartBtn("Purchased!")}
+                        disabled={cartBtn === "Buy Now" ? false : true}
+                        className={`btn flex-1 border-0 ${cartBtn === "Buy Now" ? `bg-amber-400 text-slate-950 ` : `bg-white text-cyan-200 `} text-sm font-semibold hover:bg-amber-300`}>
+                        {cartBtn}
+                    </button>
                         </div>
 
                         <div className="mt-8 flex flex-wrap gap-2">

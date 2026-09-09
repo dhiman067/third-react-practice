@@ -47,7 +47,9 @@ export default function Products({ PromiseProduct,coins,setCoins }: ProductsProp
                     ))}
                 </div>
             ) : (
-                productDescription.map(pro => <ProductDescription handleBackToproductsBtn={handleBackToproductsBtn} pro={pro}></ProductDescription>)
+                productDescription.map(pro => <ProductDescription coins={coins} 
+                    setCoins ={setCoins}
+                    handleBackToproductsBtn={handleBackToproductsBtn} pro={pro}></ProductDescription>)
             )}
         </div>
     )
