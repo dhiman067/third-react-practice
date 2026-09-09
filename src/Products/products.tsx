@@ -35,7 +35,7 @@ export default function Products({ PromiseProduct,coins,setCoins }: ProductsProp
 
     
     return (
-        <div>
+        <div className="my-2">
             {productDescription.length === 0 ? (
                 <div className="flex flex-col items-center md:grid md:grid-cols-2 xl:grid xl:grid-cols-3 gap-4 m-auto xl:w-7xl pl-2.5">
                     {products.map(product => (
