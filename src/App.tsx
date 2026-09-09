@@ -9,12 +9,13 @@ import Navbar from './Navbar'
 
 function App() {
  
-let PromiseProduct = async():Promise<ProductType>=>{
+let ProductFetch = async():Promise<ProductType>=>{
       let res = await fetch("https://dummyjson.com/products")
       let data = res.json()
       return data
     }
     const [coins, setCoins]=useState(600)
+    let [PromiseProduct]= useState(()=>ProductFetch())
   return (
     
     <>
@@ -22,7 +23,7 @@ let PromiseProduct = async():Promise<ProductType>=>{
     <Navbar coins={coins}></Navbar>
     
    <Suspense fallback={<h3>Loading.....</h3>}>
-        <Products coins={coins} setCoins={setCoins} PromiseProduct={PromiseProduct()} />
+        <Products coins={coins} setCoins={setCoins} PromiseProduct={PromiseProduct} />
       </Suspense>
     </>
   )
