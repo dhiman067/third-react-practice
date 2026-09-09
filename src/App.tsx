@@ -19,7 +19,6 @@ let ProductFetch = async():Promise<ProductType>=>{
   return (
     
     <>
-     
     <Navbar coins={coins}></Navbar>
     
    <Suspense fallback={<h3>Loading.....</h3>}>

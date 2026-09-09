@@ -1,8 +1,8 @@
 
 const Navbar = ({coins}:{coins:number}) => {
     return (
-        <div>
-           <div className="navbar bg-[#0f172a] text-white px-4 md:px-8 shadow-xl border-b border-gray-800">
+        <div className=" sticky top-0 z-50">
+           <div className="navbar bg-[#0f172a] text-white px-4 md:px-8 shadow-xl border-b border-gray-800 ">
         
         {/* Brand / Logo Section */}
         <div className="navbar-start">
